@@ -9,7 +9,7 @@ const ActiveQuestion = props => (
                 <strong>2.</strong>&nbsp;
                 {props.question}
             </span>
-            <small>2 из 4</small>
+            <small>{props.answerNumber} из {props.quizLength}</small>
         </p>
 
         <AnswersList
