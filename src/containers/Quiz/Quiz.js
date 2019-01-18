@@ -5,7 +5,8 @@ import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz'
 
 class Quiz extends Component {
     state = {
-        isFinished: true,
+        results: {},
+        isFinished: false,
         activeQuestion: 0,
         answerState: null,
         quiz: [
@@ -43,11 +44,16 @@ class Quiz extends Component {
         }
 
         const question = this.state.quiz[this.state.activeQuestion]
+        const results = this.state.results
 
         if (question.rightAnswerId === answerId) {
+            if (!results[question.id]) {
+                results[question.id] = 'success'
+            }
 
             this.setState({
-                answerState: { [answerId]: 'success' }
+                answerState: { [answerId]: 'success' },
+                results
             })
 
             const timeout = window.setTimeout(() => {
@@ -66,14 +72,26 @@ class Quiz extends Component {
             }, 1000)
 
         } else {
+            results[question.id] = 'error'
             this.setState({
-                answerState: { [answerId]: 'error' }
+                answerState: { [answerId]: 'error' },
+                results
             })
         }
     }
 
     isQuizFinished() {
         return this.state.activeQuestion + 1 === this.state.quiz.length
+    }
+
+    retryHandler = () => {
+        console.log('Retry')
+        this.setState({
+            results: {},
+            isFinished: false,
+            activeQuestion: 0,
+            answerState: null,
+        })
     }
 
     render() {
@@ -85,7 +103,11 @@ class Quiz extends Component {
 
                     {
                         this.state.isFinished
-                            ? <FinishedQuiz />
+                            ? <FinishedQuiz
+                                results={this.state.results}
+                                quiz={this.state.quiz}
+                                onRetry={this.retryHandler}
+                            />
                             : <ActiveQuestion
                                 answers={this.state.quiz[this.state.activeQuestion].answers}
                                 question={this.state.quiz[this.state.activeQuestion].question}
