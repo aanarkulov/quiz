@@ -11,10 +11,10 @@ class App extends Component {
     return (
       <Layout>
         <Switch>
-          <Route path="/auth" Component={Auth} />
-          <Route path="/quiz-creator" Component={QuizCrator} />
-          <Route path="/quiz/:id" Component={Quiz} />
-          <Route path="/" Component={QuizList} />
+          <Route exact path="/" component={QuizList} />
+          <Route path="/auth" component={Auth} />
+          <Route path="/quiz-creator" component={QuizCrator} />
+          <Route path="/quiz/:id" component={Quiz} />
         </Switch>
       </Layout>
     )
