@@ -3,7 +3,7 @@ import classes from './QuizCreator.css'
 import Button from '../../components/UI/Button/Button'
 import Input from '../../components/UI/Input/Input'
 import Select from '../../components/UI/Select/Select'
-import { createControl } from '../../form/formFramework'
+import { createControl, validate, validateForm } from '../../form/formFramework'
 import Auxillary from '../../hoc/Auxillary/Auxillary'
 
 function createOptionControl(number) {
@@ -31,7 +31,8 @@ class QuizCreator extends Component {
     state = {
         quiz: [],
         formControls: createFormControls(),
-        rightAnswerId: 1
+        rightAnswerId: 1,
+        isFormValid: false,
     }
 
     submitHandler = event => {
@@ -40,6 +41,22 @@ class QuizCreator extends Component {
 
     addQuestionHandler = () => {
 
+    }
+
+    onChangeHandler = (value, controlName) => {
+        const formControls = { ...this.state.formControls }
+        const control = { ...formControls[controlName] }
+
+        control.touched = true
+        control.value = value
+        control.valid = validate(value, control.validation)
+
+        formControls[controlName] = control
+
+        this.setState({
+            formControls,
+            isFormValid: validateForm(formControls)
+        })
     }
 
     renderInputs = () => {
@@ -54,7 +71,7 @@ class QuizCreator extends Component {
                         valid={control.valid}
                         touched={control.touched}
                         shouldValidate={control.validation}
-                        onChange={event => this.onChangeHandler(event, controlName)}
+                        onChange={event => this.onChangeHandler(event.target.value, controlName)}
                     />
 
                     {index === 0 ? <hr /> : null}
@@ -95,10 +112,12 @@ class QuizCreator extends Component {
                         <Button
                             type="primary"
                             onClick={this.addQuestionHandler}
+                            disabled={!this.state.isFormValid}
                         >Добавить вопрос</Button>
                         <Button
                             type="success"
                             onClick={this.addQuizHandler}
+                            disabled={this.state.quiz.length === 0}
                         >Создать тест</Button>
 
                     </form>
