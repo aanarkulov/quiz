@@ -1,37 +1,25 @@
 import React, { Component } from 'react'
 import classes from './Auth.css'
 import Button from '../../components/UI/Button/Button'
-import Input from '../../components/UI/Input/Input';
+import Input from '../../components/UI/Input/Input'
 import is from 'is_js';
+import { createControl } from '../../form/formFramework'
 
 class Auth extends Component {
     state = {
         isFormValid: false,
         formControls: {
-            email: {
+            email: createControl({
                 type: 'email',
                 label: 'Email',
-                value: '',
                 errorMessage: 'Введите корректный email',
-                valid: false,
-                touched: false,
-                validation: {
-                    required: true,
-                    email: true
-                }
-            },
-            password: {
+            }, { required: true, email: true }),
+
+            password: createControl({
                 type: 'password',
                 label: 'Пароль',
-                value: '',
                 errorMessage: 'Введите корректный пароль',
-                valid: false,
-                touched: false,
-                validation: {
-                    required: true,
-                    minLength: 6
-                }
-            }
+            }, { required: true, minLength: 6 }),
         }
     }
 
