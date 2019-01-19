@@ -1,3 +1,5 @@
+import is from 'is_js'
+
 export function createControl(config, validation) {
     return {
         ...config,
@@ -19,6 +21,14 @@ export function validate(value, validation = null) {
         isValid = value.trim() !== '' && isValid
     }
 
+    if (validation.email) {
+        isValid = is.email(value) && isValid
+    }
+
+    if (validation.minLength) {
+        isValid = value.length >= validation.minLength && isValid
+    }
+
     return isValid
 }
 
@@ -30,6 +40,10 @@ export function validateForm(formControls) {
             isFormValid = formControls[control].valid && isFormValid
         }
     }
+
+    // Object.keys(formControls).forEach(control => {
+    //     isFormValid = formControls[control].valid && isFormValid
+    // })
 
     return isFormValid
 }
