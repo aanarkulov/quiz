@@ -1,5 +1,5 @@
-import React from 'react';
-import classes from './Loader.css';
+import React from 'react'
+import classes from './Loader.css'
 
 const Loader = props => (
     <div className={classes.center}>
@@ -10,4 +10,4 @@ const Loader = props => (
     </div>
 )
 
-export default Loader;
+export default Loader
