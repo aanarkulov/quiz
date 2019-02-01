@@ -1,12 +1,14 @@
 import React from 'react'
 import { shallow } from 'enzyme'
+import sinon from 'sinon'
 import QuizList from '../containers/QuizList/QuizList'
 import { NavLink } from 'react-router-dom'
 import Loader from '../components/UI/Loader/Loader'
 
 describe('QuizList container', () => {
+    let wrapper, defaultProps
     function generateWrapper(passedProps) {
-        const defaultProps = {
+        defaultProps = {
             loading: false,
             quizes: [],
             fetchQuizes: () => { },
@@ -16,58 +18,30 @@ describe('QuizList container', () => {
         return shallow(<QuizList {...props} />)
     }
 
-    let wrapper
-    beforeEach(() => {
-        wrapper = generateWrapper()
-    });
-
-    describe('initial', () => {
-        const mockFetchQuizes = jest.fn()
-        const nextProps = {
-            fetchQuizes: mockFetchQuizes
+    it('should render Loader', () => {
+        const passedProps = {
+            loading: true
         }
-        wrapper = generateWrapper(nextProps)
+        wrapper = generateWrapper(passedProps)
 
-        it('renders', () => {
-            expect(wrapper).toMatchSnapshot()
-        })
-
-        it('dispatches the `fetchQuizes()` method it receives from props', () => {
-            // expect(mockFetchQuizes).toHaveBeenCalled() // выводит ошибку, но должно проходит, так как метод fetchQuizes вызывается
-        })
+        expect(wrapper.find(Loader).exists()).toBe(true)
     })
 
-    describe('Should renders', () => {
-        it('Loader component', () => {
-            const nextProps = {
-                loading: true,
-            }
-            wrapper = generateWrapper(nextProps)
-            // console.log(wrapper.find(Loader).exists()) // false, но должно быть true, так как QuizList содержит Loader 
-            // expect(wrapper.find(Loader).exists()).toBe(true)
-        })
+    it('should render NavLink', () => {
+        const passedProps = {
+            quizes: [{ id: 1, name: 'Тест № 1' }],
+        }
+        wrapper = generateWrapper(passedProps)
 
-        it('NavLink component', () => {
-            // expect(wrapper.find(NavLink).exists()).toBe(true) // ?
-        })
+        expect(wrapper.find(NavLink)).toHaveLength(1)
     })
 
-    describe('Should display', () => {
-        it('a list of quiz', () => {
-            const nextProps = {
-                quizes: [1]
-            }
-            wrapper = generateWrapper(nextProps)
+    it('ComponentDidMount', () => {
+        const fetchQuizes = sinon.stub(defaultProps, 'fetchQuizes')
+        wrapper = generateWrapper()
 
-            expect(wrapper).toHaveLength(1) // при quizes: [1, 2], expect(wrapper).toHaveLength(2) выводит ошибку
-        })
-
-        it('"Список тестов"', () => {
-            // expect(wrapper.find('h1').text()).toEqual('Список тестов') // ?
-            // expect(wrapper.find('h1').first().text()).toEqual('Список тестов') // ?
-            // expect(wrapper.find('h1').findWhere(n => n.text() === 'Список тест ...')) // ?
-            // expect(wrapper.findWhere(n => n.type() === 'h1' && n.contains('Список тест ...'))) // ? 
-        })
+        // wrapper.instance().componentDidMount()
+        expect(fetchQuizes.calledOnce).toBe(true)
     })
 
 })
