@@ -28,18 +28,17 @@ class QuizList extends Component {
 
     render() {
         return (
-            <Loader />
-            // <div className={classes.QuizList}>
-            //     <div>
-            //         <h1>Список тестов</h1>
-            //         {this.props.loading && this.props.quizes.length === 0
-            //             ? <Loader />
-            //             : <ul>
-            //                 {this.renderQuiz()}
-            //             </ul>
-            //         }
-            //     </div>
-            // </div>
+            <div className={classes.QuizList}>
+                <div>
+                    <h1>Список тестов</h1>
+                    {this.props.loading && this.props.quizes.length === 0
+                        ? <Loader />
+                        : <ul>
+                            {this.renderQuiz()}
+                        </ul>
+                    }
+                </div>
+            </div>
         )
     }
 }
