@@ -17,6 +17,7 @@ class Quiz extends Component {
     }
 
     render() {
+        console.log(this.props.quiz)
         return (
             <div className={classes.Quiz}>
                 <div className={classes.QuizWrapper}>
