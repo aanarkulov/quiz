@@ -39,6 +39,7 @@ describe('QuizList container', () => {
     it('ComponentDidMount', () => {
         const fetchQuizes = sinon.stub(defaultProps, 'fetchQuizes')
         wrapper = shallow(<QuizList {...defaultProps} />)
+
         expect(fetchQuizes.calledOnce).toBe(true)
     })
 
