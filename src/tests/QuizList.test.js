@@ -29,18 +29,16 @@ describe('QuizList container', () => {
 
     it('should render NavLink', () => {
         const passedProps = {
-            quizes: [{ id: 1, name: 'Тест № 1' }],
+            quizes: [1, 2]
         }
         wrapper = generateWrapper(passedProps)
 
-        expect(wrapper.find(NavLink)).toHaveLength(1)
+        expect(wrapper.find(NavLink)).toHaveLength(2)
     })
 
     it('ComponentDidMount', () => {
         const fetchQuizes = sinon.stub(defaultProps, 'fetchQuizes')
-        wrapper = generateWrapper()
-
-        // wrapper.instance().componentDidMount()
+        wrapper = shallow(<QuizList {...defaultProps} />)
         expect(fetchQuizes.calledOnce).toBe(true)
     })
 
