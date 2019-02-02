@@ -16,9 +16,9 @@ describe('Quiz container', () => {
             activeQuestion: 0,
             answerState: null,
             quiz: null,
-            fetchQuizById: (quizId) => { },
-            quizAnswerClick: () => { },
-            retryQuiz: () => { }
+            fetchQuizById: jest.fn(),
+            quizAnswerClick: jest.fn(),
+            retryQuiz: jest.fn()
         }
 
         const props = { ...defaultProps, ...passedProps }

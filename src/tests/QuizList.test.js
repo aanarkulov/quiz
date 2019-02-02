@@ -11,7 +11,7 @@ describe('QuizList container', () => {
         defaultProps = {
             loading: false,
             quizes: [],
-            fetchQuizes: () => { },
+            fetchQuizes: jest.fn()
         }
         const props = { ...defaultProps, ...passedProps }
 
