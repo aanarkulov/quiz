@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { fetchQuizes } from '../../store/actions/quiz'
 
 
-class QuizList extends Component {
+export class QuizList extends Component {
 
     renderQuiz() {
         return this.props.quizes.map((quiz) => {
@@ -44,14 +44,14 @@ class QuizList extends Component {
 }
 
 
-function mapStateToProps(state) {
+export function mapStateToProps(state) {
     return {
         quizes: state.quiz.quizes,
         loading: state.quiz.loading
     }
 }
 
-function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch) {
     return {
         fetchQuizes: () => dispatch(fetchQuizes())
     }
