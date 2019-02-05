@@ -22,7 +22,9 @@ describe('QuizList container', () => {
     it('should render NavLink', () => {
         props = {
             loading: false,
-            quizes: [1],
+            quizes: [
+                { id: 1, name: 'Quiz 1' }
+            ],
             fetchQuizes: jest.fn()
         }
         wrapper = shallow(<QuizList {...props} />)
