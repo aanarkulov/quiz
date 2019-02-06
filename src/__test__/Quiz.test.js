@@ -3,7 +3,6 @@ import { shallow } from 'enzyme'
 import sinon from 'sinon'
 
 import { Quiz, mapStateToProps, mapDispatchToProps } from '../containers/Quiz/Quiz'
-import Loader from '../components/UI/Loader/Loader'
 import ActiveQuestion from '../components/ActiveQuestion/ActiveQuestion'
 import FinishedQuiz from '../components/FinishedQuiz/FinishedQuiz'
 
@@ -31,14 +30,6 @@ describe('Quiz container', () => {
     }
 
     describe('should render component:', () => {
-        it('Loader', () => {
-            const passedProps = {
-                loading: true,
-            }
-            wrapper = generateWrapper(passedProps)
-            expect(wrapper.find(Loader).exists()).toBe(true)
-        })
-
         it('ActiveQuestion', () => {
             const passedProps = {
                 loading: false,
@@ -60,13 +51,6 @@ describe('Quiz container', () => {
         })
     })
 
-    it('componentDidMount test', () => {
-        const fetchQuizById = sinon.stub(defaultProps, 'fetchQuizById')
-        wrapper = shallow(<Quiz {...defaultProps} />)
-
-        expect(fetchQuizById.calledOnce).toBe(true)
-    })
-
     it('componentWillUnmount test', () => {
         const retryQuiz = sinon.stub(defaultProps, 'retryQuiz')
         wrapper = shallow(<Quiz {...defaultProps} />).unmount()
@@ -75,49 +59,9 @@ describe('Quiz container', () => {
     })
 
     it("mapStateToProps test", () => {
-        const store = {
-            quiz: {
-                quiz: [
-                    {
-                        id: 1,
-                        question: 'Сколько тебе лет?',
-                        rightAnswerId: 1,
-                        answers: [
-                            { id: 1, text: "23" },
-                            { id: 2, text: "11" },
-                            { id: 3, text: "52" },
-                            { id: 4, text: "18" }
-                        ]
-                    }
-                ],
-                results: {},
-                isFinished: false,
-                activeQuestion: 0,
-                answerState: null,
-                loading: false
-            }
-        }
+        const store = { quiz: { quiz: [{}] } }
 
-        expect(mapStateToProps(store)).toEqual({
-            quiz: [
-                {
-                    id: 1,
-                    question: 'Сколько тебе лет?',
-                    rightAnswerId: 1,
-                    answers: [
-                        { id: 1, text: "23" },
-                        { id: 2, text: "11" },
-                        { id: 3, text: "52" },
-                        { id: 4, text: "18" }
-                    ]
-                }
-            ],
-            results: {},
-            isFinished: false,
-            activeQuestion: 0,
-            answerState: null,
-            loading: false
-        })
+        expect(mapStateToProps(store)).toEqual({ quiz: [{}] })
     })
 
     it('mapDispatchToProps test', () => {
@@ -129,8 +73,6 @@ describe('Quiz container', () => {
         mapDispatchToProps(quizAnswerClick).quizAnswerClick()
         mapDispatchToProps(retryQuiz).retryQuiz()
 
-        expect(typeof fetchQuizById.mock.calls[0][0]).toEqual('function')
-        expect(typeof quizAnswerClick.mock.calls[0][0]).toEqual('function')
         expect(retryQuiz.mock.calls[0][0]).toEqual({ type: 'QUIZ_RETRY' })
     })
 

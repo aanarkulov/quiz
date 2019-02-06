@@ -40,23 +40,9 @@ describe('QuizList container', () => {
     })
 
     it("mapStateToProps test", () => {
-        const store = {
-            quiz: {
-                quizes: [
-                    { id: 1, name: "Test 1" },
-                    { id: 2, name: "Test 2" },
-                ],
-                loading: false
-            },
-        }
+        const store = { quiz: { quizes: [{}] } }
 
-        expect(mapStateToProps(store)).toEqual({
-            quizes: [
-                { id: 1, name: 'Test 1' },
-                { id: 2, name: 'Test 2' }
-            ],
-            loading: false
-        })
+        expect(mapStateToProps(store)).toEqual({ quizes: [{}] })
     })
 
     it('mapDispatchToProps test', () => {
