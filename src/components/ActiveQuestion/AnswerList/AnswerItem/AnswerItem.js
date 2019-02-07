@@ -3,11 +3,9 @@ import classes from './AnswerItem.css'
 
 const AnswerItem = props => {
     const cls = [classes.AnswerItem]
-
     if (props.state) {
         cls.push(classes[props.state])
     }
-
     return (
         <li
             className={cls.join(' ')}
@@ -16,6 +14,6 @@ const AnswerItem = props => {
             {props.answer.text}
         </li>
     )
-};
+}
 
 export default AnswerItem
