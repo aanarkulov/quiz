@@ -7,7 +7,7 @@ import {
     QUIZ_FINISHED,
     QUIZ_NEXT_QUESTION,
     QUIZ_RETRY
-} from '../actions/actionTypes';
+} from '../actions/actionTypes'
 
 const initialState = {
     quizes: [],
