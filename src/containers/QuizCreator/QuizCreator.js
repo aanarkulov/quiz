@@ -29,7 +29,8 @@ function createFormControls() {
     }
 }
 
-class QuizCreator extends Component {
+export class QuizCreator extends Component {
+
     state = {
         formControls: createFormControls(),
         rightAnswerId: 1,
@@ -53,7 +54,7 @@ class QuizCreator extends Component {
                 { text: option1.value, id: option1.id },
                 { text: option2.value, id: option2.id },
                 { text: option3.value, id: option3.id },
-                { text: option4.value, id: option4.id },
+                { text: option4.value, id: option4.id }
             ]
         }
 
@@ -110,7 +111,6 @@ class QuizCreator extends Component {
                         shouldValidate={control.validation}
                         onChange={event => this.onChangeHandler(event.target.value, controlName)}
                     />
-
                     {index === 0 ? <hr /> : null}
                 </Auxillary>
             )
@@ -140,12 +140,9 @@ class QuizCreator extends Component {
             <div className={classes.QuizCreator}>
                 <div>
                     <h1>Создание теста</h1>
-
                     <form onSubmit={this.submitHandler}>
                         {this.renderInputs()}
-
                         {select}
-
                         <Button
                             type="primary"
                             onClick={this.addQuestionHandler}
@@ -156,7 +153,6 @@ class QuizCreator extends Component {
                             onClick={this.createQuizHandler}
                             disabled={this.props.quiz.length === 0}
                         >Создать тест</Button>
-
                     </form>
                 </div>
             </div>
@@ -164,13 +160,13 @@ class QuizCreator extends Component {
     }
 }
 
-function mapStateToProps(state) {
+export function mapStateToProps(state) {
     return {
         quiz: state.create.quiz
     }
 }
 
-function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch) {
     return {
         createQuizQuestion: item => dispatch(createQuizQuestion(item)),
         finishCreateQuiz: () => dispatch(finishCreateQuiz())
