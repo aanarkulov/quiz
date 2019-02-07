@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { AUTH_SUCCESS, AUTH_LOGOUT } from './actionTypes';
+import axios from 'axios'
+import { AUTH_SUCCESS, AUTH_LOGOUT } from './actionTypes'
 
 export function auth(email, password, isLogin) {
     return async dispatch => {
@@ -41,7 +41,7 @@ export function autLogout(time) {
     }
 }
 
-export function logout(token) {
+export function logout() {
     localStorage.removeItem('token')
     localStorage.removeItem('userId')
     localStorage.removeItem('expirationDate')

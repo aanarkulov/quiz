@@ -8,27 +8,27 @@ import {
     QUIZ_FINISHED,
     QUIZ_NEXT_QUESTION,
     QUIZ_RETRY
-} from './actionTypes';
+} from './actionTypes'
 
 export function fetchQuizes() {
     return async dispatch => {
         dispatch(fetchQuizesStart())
-        try {
-            const response = await axios.get('/quizes.json')
 
-            const quizes = []
+        return await axios.get('/quizes.json')
+            .then(response => {
+                const quizes = []
 
-            Object.keys(response.data).forEach((key, index) => {
-                quizes.push({
-                    id: key,
-                    name: `Тест № ${index + 1}`
+                Object.keys(response.data).forEach((key, index) => {
+                    quizes.push({
+                        id: key,
+                        name: `Тест № ${index + 1}`
+                    })
                 })
+                dispatch(fetchQuizesSuccess(quizes))
             })
-
-            dispatch(fetchQuizesSuccess(quizes))
-        } catch (e) {
-            dispatch(fetchQuizesError(e))
-        }
+            .catch(error => {
+                dispatch(fetchQuizesError(error))
+            })
     }
 }
 
@@ -55,14 +55,13 @@ export function fetchQuizesError(e) {
 export function fetchQuizById(quizId) {
     return async dispatch => {
         dispatch(fetchQuizesStart())
-        try {
-            const response = await axios.get(`/quizes/${quizId}.json`)
-            const quiz = response.data
 
-            dispatch(fetchQuizSuccess(quiz))
-        } catch (e) {
-            dispatch(fetchQuizesError(e))
-        }
+        return await axios.get(`/quizes/${quizId}.json`)
+            .then(respone => {
+                dispatch(fetchQuizSuccess(respone.data))
+            }).catch(error => {
+                dispatch(fetchQuizesError(error))
+            })
     }
 }
 
