@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import Logout from './components/Logout/Logout'
 import { autoLogin } from "./store/actions/auth"
 
-class App extends Component {
+export class App extends Component {
 
   componentDidMount() {
     this.props.autoLogin()
@@ -46,13 +46,13 @@ class App extends Component {
   }
 }
 
-function mapStateToProps(state) {
+export function mapStateToProps(state) {
   return {
     isAuthenticated: state.auth.token && true
   }
 }
 
-function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch) {
   return {
     autoLogin: () => dispatch(autoLogin())
   }
