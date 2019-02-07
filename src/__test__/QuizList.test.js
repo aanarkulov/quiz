@@ -3,8 +3,6 @@ import { shallow } from 'enzyme'
 import sinon from 'sinon'
 
 import { QuizList, mapStateToProps, mapDispatchToProps } from '../containers/QuizList/QuizList'
-import Loader from '../components/UI/Loader/Loader'
-import { NavLink } from 'react-router-dom'
 
 describe('QuizList container', () => {
     let wrapper, props
@@ -16,7 +14,7 @@ describe('QuizList container', () => {
         }
         wrapper = shallow(<QuizList {...props} />)
 
-        expect(wrapper.find(Loader).exists()).toBe(true)
+        expect(wrapper.find('Loader').exists()).toBe(true)
     })
 
     it('should render NavLink', () => {
@@ -29,7 +27,7 @@ describe('QuizList container', () => {
         }
         wrapper = shallow(<QuizList {...props} />)
 
-        expect(wrapper.find(NavLink).exists()).toBe(true)
+        expect(wrapper.find('NavLink').exists()).toBe(true)
     })
 
     it('componentDidMount test', () => {
