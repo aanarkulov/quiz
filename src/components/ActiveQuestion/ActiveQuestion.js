@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './ActiveQuestion.css'
-import AnswersList from './AnswerList/AnswerList'
+import AnswerList from './AnswerList/AnswerList'
 
 const ActiveQuestion = props => (
     <div className={classes.ActiveQuestion}>
@@ -12,7 +12,7 @@ const ActiveQuestion = props => (
             <small>{props.answerNumber} из {props.quizLength}</small>
         </p>
 
-        <AnswersList
+        <AnswerList
             answers={props.answers}
             onAnswerClick={props.onAnswerClick}
             state={props.state}
