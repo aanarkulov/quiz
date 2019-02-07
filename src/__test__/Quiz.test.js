@@ -3,8 +3,6 @@ import { shallow } from 'enzyme'
 import sinon from 'sinon'
 
 import { Quiz, mapStateToProps, mapDispatchToProps } from '../containers/Quiz/Quiz'
-import ActiveQuestion from '../components/ActiveQuestion/ActiveQuestion'
-import FinishedQuiz from '../components/FinishedQuiz/FinishedQuiz'
 
 describe('Quiz container', () => {
 
@@ -37,7 +35,7 @@ describe('Quiz container', () => {
             }
             wrapper = generateWrapper(passedProps)
 
-            expect(wrapper.find(ActiveQuestion).exists()).toBe(true)
+            expect(wrapper.find('ActiveQuestion').exists()).toBe(true)
         })
 
         it('FinishedQuiz', () => {
@@ -47,7 +45,7 @@ describe('Quiz container', () => {
             }
             wrapper = generateWrapper(passedProps)
 
-            expect(wrapper.find(FinishedQuiz).exists()).toBe(true)
+            expect(wrapper.find('FinishedQuiz').exists()).toBe(true)
         })
     })
 
