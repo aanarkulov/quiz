@@ -6,7 +6,7 @@ import { createControl, validate, validateForm } from '../../form/formFramework'
 import { connect } from 'react-redux'
 import { auth } from '../../store/actions/auth'
 
-class Auth extends Component {
+export class Auth extends Component {
     state = {
         isFormValid: false,
         formControls: {
@@ -86,11 +86,9 @@ class Auth extends Component {
             <div className={classes.Auth}>
                 <div>
                     <h1>Авторизация</h1>
-
                     <form className={classes.AuthForm} onSubmit={this.submitHandler}>
                         {this.renderInputs()}
-
-                        <Button type="success" onClick={this.loginHandler} disabled={!this.state.isFormValid}> Войти</Button>
+                        <Button type="success" onClick={this.loginHandler} disabled={!this.state.isFormValid}>Войти</Button>
                         <Button type="primary" onClick={this.registerHandler} disabled={!this.state.isFormValid}>Зарегистрироваться</Button>
                     </form>
                 </div>
@@ -99,7 +97,7 @@ class Auth extends Component {
     }
 }
 
-function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch) {
     return {
         auth: (email, password, isLogin) => dispatch(auth(email, password, isLogin))
     }
