@@ -15,4 +15,14 @@ describe('AnswerList component', () => {
         expect(wrapper.find('AnswerItem').prop('state')).toEqual('success')
     })
 
+    it('props state: null', () => {
+        const props = {
+            answers: [{ id: 1, text: '' }],
+            state: null
+        }
+        const wrapper = shallow(<AnswerList {...props} />)
+
+        expect(wrapper.find('AnswerItem').prop('state')).toBe(null)
+    })
+
 })

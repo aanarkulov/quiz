@@ -26,6 +26,18 @@ describe('quiz actions', () => {
         })
     })
 
+    it('fetchQuizes response error', async () => {
+        store = mockStore()
+
+        mockAxios.get.mockImplementationOnce(() =>
+            Promise.resolve()
+        )
+
+        await store.dispatch(actions.fetchQuizes()).then(() => {
+            expect(store.getActions()[1].type).toEqual(types.FETCH_QUIZES_ERROR)
+        })
+    })
+
     it('fetchQuizById test', async () => {
         store = mockStore()
         const quiz = [{}]
@@ -43,24 +55,19 @@ describe('quiz actions', () => {
         })
     })
 
-    describe('quizAnswerClick test', () => {
+    it('fetchQuizById response error', async () => {
+        store = mockStore()
 
-        it('if answerClick true', async () => {
-            store = mockStore({
-                quiz: {
-                    answerState: null,
-                    activeQuestion: 0,
-                    results: {},
-                    quiz: [{
-                        id: 1,
-                        rightAnswerId: 1
-                    }]
-                }
-            })
-            await store.dispatch(actions.quizAnswerClick(1)).then(() => {
-                expect(store.getActions()[0].results['1']).toEqual('success')
-            })
+        mockAxios.get.mockImplementationOnce(() =>
+            Promise.resolve()
+        )
+
+        await store.dispatch(actions.fetchQuizById()).then(() => {
+            expect(store.getActions()[1].type).toEqual(types.FETCH_QUIZES_ERROR)
         })
+    })
+
+    describe('quizAnswerClick test', () => {
 
         it('if answerClick false', async () => {
             store = mockStore({
@@ -80,36 +87,46 @@ describe('quiz actions', () => {
         })
 
         it('if answerState not null', async () => {
-            expectedActions = [
-                {
-                    type: types.QUIZ_SET_STATE,
-                    answerState: { 1: 'error' },
-                    results: { 1: 'error' }
-                }
-            ]
             store = mockStore({
                 quiz: {
-                    answerState: { 1: 'error' },
-                    activeQuestion: 0,
-                    results: { 1: 'error' },
-                    quiz: [{
-                        id: 1,
-                        rightAnswerId: 2
-                    }]
+                    answerState: { 1: 'success' },
                 }
             })
-            await store.dispatch(actions.quizAnswerClick(1)).then(() => {
-                expect(store.getActions()).toEqual(expectedActions)
+
+            await store.dispatch(actions.quizAnswerClick(1))
+        })
+
+        it('!results[question.id]', async () => {
+            store = mockStore({
+                quiz: {
+                    answerState: null,
+                    activeQuestion: 1,
+                    results: { 2: 'success' },
+                    quiz: [
+                        {
+                            id: 1,
+                            rightAnswerId: 1
+                        },
+                        {
+                            id: 2,
+                            rightAnswerId: 2
+                        }
+                    ]
+                }
             })
+
+            await store.dispatch(actions.quizAnswerClick(2))
+            expect(store.getActions()[0].results['2']).toEqual('success')
         })
 
         it('isQuizFinished test', async () => {
             expectedActions = [
                 {
                     type: types.QUIZ_SET_STATE,
-                    answerState: { 1: 'error' },
-                    results: { 1: 'error' }
-                }
+                    answerState: { 1: 'success' },
+                    results: { 1: 'success' }
+                },
+                { type: types.QUIZ_FINISHED }
             ]
             store = mockStore({
                 quiz: {
@@ -123,66 +140,54 @@ describe('quiz actions', () => {
                     }]
                 }
             })
+
+            jest.useFakeTimers()
             await store.dispatch(actions.quizAnswerClick(1)).then(() => {
-                // console.log(store.getActions())
+                store.getActions()
                 // expect(store.getActions()).toEqual(expectedActions)
             })
+            jest.runAllTimers()
         })
 
-    })
+        it('quizNextQuestion test', async () => {
+            expectedActions = [
+                {
+                    type: types.QUIZ_SET_STATE,
+                    answerState: { 1: 'success' },
+                    results: { 1: 'success' }
+                },
+                {
+                    type: types.QUIZ_NEXT_QUESTION,
+                    number: 1
+                }
+            ]
+            store = mockStore({
+                quiz: {
+                    isQuizFinished: false,
+                    answerState: {},
+                    activeQuestion: 0,
+                    results: {},
+                    quiz: [
+                        {
+                            id: 1,
+                            rightAnswerId: 1
+                        },
+                        {
+                            id: 2,
+                            rightAnswerId: 2
+                        }
+                    ]
+                }
+            })
 
+            jest.useFakeTimers()
+            await store.dispatch(actions.quizAnswerClick(1)).then(() => {
+                store.getActions()
+                // expect(store.getActions()).toEqual(expectedActions)
+            })
+            jest.runAllTimers()
+        })
 
-
-    let expectedAction
-    it('fetchQuizesError test', () => {
-        const error = []
-        expectedAction = {
-            type: types.FETCH_QUIZES_ERROR,
-            error
-        }
-        expect(actions.fetchQuizesError(error)).toEqual(expectedAction)
-    })
-
-    it('fetchQuizSuccess test', () => {
-        const quiz = []
-        expectedAction = {
-            type: types.FETCH_QUIZ_START,
-            quiz
-        }
-        expect(actions.fetchQuizSuccess(quiz)).toEqual(expectedAction)
-    })
-
-    it('quizSetState test', () => {
-        const answerState = { 1: 'success' }
-        const results = { 1: "error", 2: "success" }
-        expectedAction = {
-            type: types.QUIZ_SET_STATE,
-            answerState, results
-        }
-        expect(actions.quizSetState(answerState, results)).toEqual(expectedAction)
-    })
-
-    it('finishedQuiz test', () => {
-        expectedAction = {
-            type: types.QUIZ_FINISHED
-        }
-        expect(actions.finishedQuiz()).toEqual(expectedAction)
-    })
-
-    it('quizNextQuestion test', () => {
-        expectedAction = {
-            type: types.QUIZ_NEXT_QUESTION,
-            number: 1
-        }
-        expect(actions.quizNextQuestion(1)).toEqual(expectedAction)
-    })
-
-    it('isQuizFinished test', () => {
-        const state = {
-            activeQuestion: 2,
-            quiz: [1, 2, 3]
-        }
-        expect(actions.isQuizFinished(state)).toBe(true)
     })
 
 })

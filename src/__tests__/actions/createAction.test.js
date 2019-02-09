@@ -19,10 +19,9 @@ describe('create actions', () => {
         expect(store.getActions()).toEqual(expectedActions)
     })
 
-    let expectedAction
     it('createQuizQuestion test', () => {
         const item = []
-        expectedAction = {
+        const expectedAction = {
             type: types.CREATE_QUIZ_QUESTION,
             item,
         }

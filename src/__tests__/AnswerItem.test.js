@@ -19,6 +19,15 @@ describe('AnswerItem component', () => {
         expect(onAnswerClick.calledOnce).toBe(true)
     })
 
+    it('props state: null', () => {
+        props = {
+            answer: { id: 1, text: '' },
+            state: null,
+            onAnswerClick: jest.fn()
+        }
+        wrapper = shallow(<AnswerItem {...props} />)
+    })
+
     it('li className test', () => {
         expect(wrapper.find('li').className).toBe(undefined)
     })

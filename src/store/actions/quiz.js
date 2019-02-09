@@ -32,43 +32,16 @@ export function fetchQuizes() {
     }
 }
 
-export function fetchQuizesStart() {
-    return {
-        type: FETCH_QUIZES_START
-    }
-}
-
-export function fetchQuizesSuccess(quizes) {
-    return {
-        type: FETCH_QUIZES_SUCCESS,
-        quizes
-    }
-}
-
-export function fetchQuizesError(error) {
-    return {
-        type: FETCH_QUIZES_ERROR,
-        error: error
-    }
-}
-
 export function fetchQuizById(quizId) {
     return async dispatch => {
         dispatch(fetchQuizesStart())
 
         return await axios.get(`/quizes/${quizId}.json`)
-            .then(respone => {
-                dispatch(fetchQuizSuccess(respone.data))
+            .then(response => {
+                dispatch(fetchQuizSuccess(response.data))
             }).catch(error => {
                 dispatch(fetchQuizesError(error))
             })
-    }
-}
-
-export function fetchQuizSuccess(quiz) {
-    return {
-        type: FETCH_QUIZ_START,
-        quiz
     }
 }
 
@@ -94,20 +67,47 @@ export function quizAnswerClick(answerId) {
 
             dispatch(quizSetState({ [answerId]: 'success' }, results))
 
-            const timeout = window.setTimeout(() => {
+            const timeout = setTimeout(() => {
                 if (isQuizFinished(state)) {
                     dispatch(finishedQuiz())
                 } else {
                     dispatch(quizNextQuestion(state.activeQuestion + 1))
                 }
 
-                window.clearTimeout(timeout)
+                clearTimeout(timeout)
             }, 1000)
 
         } else {
             results[question.id] = 'error'
             dispatch(quizSetState({ [answerId]: 'error' }, results))
         }
+    }
+}
+
+export function fetchQuizesStart() {
+    return {
+        type: FETCH_QUIZES_START
+    }
+}
+
+export function fetchQuizesSuccess(quizes) {
+    return {
+        type: FETCH_QUIZES_SUCCESS,
+        quizes
+    }
+}
+
+export function fetchQuizesError(error) {
+    return {
+        type: FETCH_QUIZES_ERROR,
+        error: error
+    }
+}
+
+export function fetchQuizSuccess(quiz) {
+    return {
+        type: FETCH_QUIZ_START,
+        quiz
     }
 }
 

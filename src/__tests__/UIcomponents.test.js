@@ -21,6 +21,14 @@ describe('UI components', () => {
         expect(wrapper)
     })
 
+    it('Button disabled true', () => {
+        props = {
+            disabled: true
+        }
+        wrapper = shallow(<Button {...props} />)
+        expect(wrapper.find('button').prop('disabled')).toBe(true)
+    })
+
     describe('Input', () => {
         it('Input', () => {
             wrapper = shallow(<Input />)

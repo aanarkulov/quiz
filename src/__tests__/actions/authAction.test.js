@@ -1,4 +1,3 @@
-import mockAxios from 'axios'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import * as actions from '../../store/actions/auth'

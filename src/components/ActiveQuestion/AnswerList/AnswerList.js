@@ -13,6 +13,6 @@ const AnswerList = props => (
             />
         ))}
     </ul>
-);
+)
 
 export default AnswerList
