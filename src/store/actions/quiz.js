@@ -45,10 +45,10 @@ export function fetchQuizesSuccess(quizes) {
     }
 }
 
-export function fetchQuizesError(e) {
+export function fetchQuizesError(error) {
     return {
         type: FETCH_QUIZES_ERROR,
-        error: e
+        error: error
     }
 }
 
@@ -77,14 +77,14 @@ export function quizAnswerClick(answerId) {
         const state = getState().quiz
 
         if (state.answerState) {
-            const key = Object.keys(state.answerState)[0];
+            const key = Object.keys(state.answerState)[0]
             if (state.answerState[key] === 'success') {
                 return
             }
         }
 
-        const question = state.quiz[state.activeQuestion];
-        const results = state.results;
+        const question = state.quiz[state.activeQuestion]
+        const results = state.results
 
 
         if (question.rightAnswerId === answerId) {
