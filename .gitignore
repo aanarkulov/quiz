@@ -23,6 +23,10 @@ yarn-debug.log*
 yarn-error.log*
 
 .idea
+
+# firebase
 .firebase
+.firebaserc
+firebase.json
 
 README.md.save
