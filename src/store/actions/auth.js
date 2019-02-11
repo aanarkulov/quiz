@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { AUTH_SUCCESS, AUTH_LOGOUT } from './actionTypes'
+import { API_KEY } from '../../settings'
 
 export function auth(email, password, isLogin) {
     return async dispatch => {
-        const API_KEY = 'AIzaSyAOGqKcfPCu-e3zBlMIbYvpBxyHvv2RzNA'
         const authData = { email, password, returnSecureToken: true }
 
         let url = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${API_KEY}`
