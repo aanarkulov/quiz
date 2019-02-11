@@ -1,4 +1,5 @@
-import axios from '../../axios/axios-quiz'
+import axios from 'axios'
+import { baseURL } from '../../settings'
 import {
     FETCH_QUIZES_START,
     FETCH_QUIZES_SUCCESS,
@@ -14,7 +15,7 @@ export function fetchQuizes() {
     return async dispatch => {
         dispatch(fetchQuizesStart())
 
-        return await axios.get('/quizes.json')
+        return await axios.get(`${baseURL}/quizes.json`)
             .then(response => {
                 const quizes = []
 
@@ -36,7 +37,7 @@ export function fetchQuizById(quizId) {
     return async dispatch => {
         dispatch(fetchQuizesStart())
 
-        return await axios.get(`/quizes/${quizId}.json`)
+        return await axios.get(`${baseURL}/quizes/${quizId}.json`)
             .then(response => {
                 dispatch(fetchQuizSuccess(response.data))
             }).catch(error => {
