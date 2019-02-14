@@ -1,47 +1,55 @@
-import React, { Component } from 'react'
-import classes from './Layout.css'
-import MenuToggle from '../../components/Navigation/MenuToggle/MenuToggle'
-import Drawer from '../../components/Navigation/Drawer/Drawer'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import classes from './Layout.css';
+import MenuToggle from '../../components/Navigation/MenuToggle/MenuToggle';
+import Drawer from '../../components/Navigation/Drawer/Drawer';
 
 export class Layout extends Component {
-    state = {
-        menu: false
-    }
+  state = { menu: false };
 
-    toggleMenuHandler = () => {
-        this.setState({ menu: !this.state.menu })
-    }
+  toggleMenuHandler = () => {
+    const { menu } = this.state;
+    this.setState({ menu: !menu });
+  }
 
-    menuCloseHandler = () => {
-        this.setState({ menu: false })
-    }
+  menuCloseHandler = () => {
+    this.setState({ menu: false });
+  }
 
-    render() {
-        return (
-            <div className={classes.Layout}>
-                <Drawer
-                    isOpen={this.state.menu}
-                    onClose={this.menuCloseHandler}
-                    isAuthenticated={this.props.isAuthenticated}
-                />
-                <MenuToggle
-                    onToggle={this.toggleMenuHandler}
-                    isOpen={this.state.menu}
-                />
+  render() {
+    const { menu } = this.state;
+    const { children, isAuthenticated } = this.props;
 
-                <main>
-                    {this.props.children}
-                </main>
-            </div>
-        )
-    }
+    return (
+      <div className={classes.Layout}>
+        <Drawer
+          isOpen={menu}
+          onClose={this.menuCloseHandler}
+          isAuthenticated={isAuthenticated}
+        />
+        <MenuToggle
+          onToggle={this.toggleMenuHandler}
+          isOpen={menu}
+        />
+
+        <main>
+          {children}
+        </main>
+      </div>
+    );
+  }
 }
+
+Layout.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+  isAuthenticated: PropTypes.bool,
+};
+
+Layout.defaultProps = { isAuthenticated: null };
 
 export function mapStateToProps(state) {
-    return {
-        isAuthenticated: state.auth.token && true
-    }
+  return { isAuthenticated: state.auth.token && true };
 }
 
-export default connect(mapStateToProps)(Layout)
+export default connect(mapStateToProps)(Layout);

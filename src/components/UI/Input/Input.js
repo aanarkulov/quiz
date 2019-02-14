@@ -1,32 +1,47 @@
-import React from 'react'
-import classes from './Input.css'
+import React from 'react';
+import PropTypes from 'prop-types';
+import classes from './Input.css';
 
 function isInvalid({ valid, touched, shouldValidate }) {
-    return !valid && shouldValidate && touched
+  return !valid && shouldValidate && touched;
 }
 
-const Input = props => {
-    const inputType = props.type || 'text'
-    const cls = [classes.Input]
-    const htmlFor = `${inputType}-${Math.random()}`
+const Input = (props) => {
+  const { type, label, value, errorMessage, onChange } = props;
+  const cls = [classes.Input];
+  const htmlFor = `${type}-${Math.random()}`;
 
-    if (isInvalid(props)) {
-        cls.push(classes.invalid)
-    }
+  if (isInvalid(props)) {
+    cls.push(classes.invalid);
+  }
 
-    return (
-        <div className={cls.join(' ')}>
-            <label htmlFor={htmlFor}>{props.label}</label>
-            <input
-                type={inputType}
-                id={htmlFor}
-                value={props.value}
-                onChange={props.onChange}
-            />
+  return (
+    <div className={cls.join(' ')}>
+      <label htmlFor={htmlFor}>
+        {label}
+      </label>
+      <input
+        type={type}
+        id={htmlFor}
+        value={value}
+        onChange={onChange}
+      />
+      {isInvalid(props) ? <span>{errorMessage}</span> : null}
+    </div>
+  );
+};
 
-            {isInvalid(props) ? <span>{props.errorMessage || 'Введите верное значение'}</span> : null}
-        </div>
-    )
-}
+Input.propTypes = {
+  type: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+};
 
-export default Input
+Input.defaultProps = {
+  type: 'text',
+  errorMessage: 'Введите верное значение',
+};
+
+export default Input;

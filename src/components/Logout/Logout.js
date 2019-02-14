@@ -1,23 +1,24 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
-import { logout } from '../../store/actions/auth'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import * as actions from '../../store/actions/auth';
 
 export class Logout extends Component {
+  componentDidMount() {
+    const { logout } = this.props;
+    logout();
+  }
 
-    componentDidMount() {
-        this.props.logout()
-    }
-
-    render() {
-        return <Redirect to="/" />
-    }
+  render() {
+    return <Redirect to="/" />;
+  }
 }
+
+Logout.propTypes = { logout: PropTypes.func.isRequired };
 
 export function mapDispatchToProps(dispatch) {
-    return {
-        logout: () => dispatch(logout())
-    }
+  return { logout: () => dispatch(actions.logout()) };
 }
 
-export default connect(null, mapDispatchToProps)(Logout)
+export default connect(null, mapDispatchToProps)(Logout);

@@ -1,60 +1,58 @@
-import React, { Component } from 'react'
-import classes from './QuizList.css'
-import { NavLink } from 'react-router-dom'
-import Loader from '../../components/UI/Loader/Loader'
-import { connect } from 'react-redux'
-import { fetchQuizes } from '../../store/actions/quiz'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import classes from './QuizList.css';
+import Loader from '../../components/UI/Loader/Loader';
+import * as actions from '../../store/actions/quiz';
 
 
 export class QuizList extends Component {
+  componentDidMount() {
+    const { fetchQuizes } = this.props;
+    fetchQuizes();
+  }
 
-    renderQuiz() {
-        return this.props.quizes.map((quiz) => {
-            return (
-                <li
-                    key={quiz.id}
-                >
-                    <NavLink to={'/quiz/' + quiz.id}>
-                        {quiz.name}
-                    </NavLink>
-                </li>
-            )
-        })
-    }
+  renderQuiz() {
+    const { quizes } = this.props;
+    return quizes.map(quiz => (
+      <li key={quiz.id}>
+        <NavLink to={`/quiz/${quiz.id}`}>
+          {quiz.name}
+        </NavLink>
+      </li>
+    ));
+  }
 
-    componentDidMount() {
-        this.props.fetchQuizes()
-    }
+  render() {
+    const { quizes, loading } = this.props;
 
-    render() {
-        return (
-            <div className={classes.QuizList}>
-                <div>
-                    <h1>Список тестов</h1>
-                    {this.props.loading && this.props.quizes.length === 0
-                        ? <Loader />
-                        : <ul>
-                            {this.renderQuiz()}
-                        </ul>
-                    }
-                </div>
-            </div>
-        )
-    }
+    return (
+      <div className={classes.QuizList}>
+        <div>
+          <h1>Список тестов</h1>
+          {loading && quizes.length === 0 ? <Loader /> : (<ul>{this.renderQuiz()}</ul>)}
+        </div>
+      </div>
+    );
+  }
 }
 
+QuizList.propTypes = {
+  quizes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  loading: PropTypes.bool.isRequired,
+  fetchQuizes: PropTypes.func.isRequired,
+};
 
 export function mapStateToProps(state) {
-    return {
-        quizes: state.quiz.quizes,
-        loading: state.quiz.loading
-    }
+  return {
+    quizes: state.quiz.quizes,
+    loading: state.quiz.loading,
+  };
 }
 
 export function mapDispatchToProps(dispatch) {
-    return {
-        fetchQuizes: () => dispatch(fetchQuizes())
-    }
+  return { fetchQuizes: () => dispatch(actions.fetchQuizes()) };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(QuizList)  
+export default connect(mapStateToProps, mapDispatchToProps)(QuizList);

@@ -1,42 +1,47 @@
-import React from 'react'
-import { shallow } from 'enzyme'
-
-import { Auth, mapDispatchToProps } from '../containers/Auth/Auth'
+import React from 'react';
+import { shallow } from 'enzyme';
+import { Auth, mapDispatchToProps } from '../containers/Auth/Auth';
 
 describe('Auth container', () => {
+  let wrapper;
+  let props;
 
-    let wrapper
-    it('should render form', () => {
-        wrapper = shallow(<Auth />)
-        expect(wrapper.find('form').exists()).toBe(true)
-    })
+  beforeEach(() => {
+    props = { auth: jest.fn() };
+    wrapper = shallow(<Auth {...props} />);
+  });
 
-    it('methods of Auth', () => {
-        const props = { auth: jest.fn() }
-        const event = { preventDefault: jest.fn() }
-        wrapper = shallow(<Auth {...props} />)
+  it('loginHandler test', () => {
+    wrapper.instance().loginHandler();
+    expect(props.auth.mock.calls[0][2]).toBe(true);
+  });
 
-        expect(wrapper.instance().loginHandler()).toBe(undefined)
-        expect(wrapper.instance().registerHandler()).toBe(undefined)
-        expect(wrapper.instance().submitHandler(event)).toBe(undefined)
-        expect(wrapper.instance().onChangeHandler('a.anarkuloff@gmail.com', 'email')).toBe(undefined)
-    })
+  it('registerHandler test', () => {
+    wrapper.instance().registerHandler();
+    expect(props.auth.mock.calls[0][2]).toBe(false);
+  });
 
-    it('mapDispatchToProps test', () => {
-        const auth = jest.fn();
-        mapDispatchToProps(auth).auth()
+  it('submitHandler test', () => {
+    const event = { preventDefault: jest.fn() };
+    wrapper.instance().submitHandler(event);
+    expect(event.preventDefault.mock.calls[0]).toEqual([]);
+  });
 
-        expect(typeof auth.mock.calls[0][0]).toEqual('function')
-    })
+  it('onChangeHandler test', () => {
+    wrapper.instance().onChangeHandler('a.anarkuloff@gmail.com', 'email');
+    expect(wrapper.state('isFormValid')).toBe(true);
+  });
 
-    it('Input onChangeHandler test', () => {
-        const onChangeHandler = jest.fn();
+  it('Input onChangeHandler test', () => {
+    props = { auth: jest.fn() };
+    wrapper = shallow(<Auth {...props} />);
+    wrapper.find('Input').first().simulate('change', { target: { value: '' } });
+    expect(wrapper.state('isFormValid')).toBe(true);
+  });
 
-        wrapper.find('Input').first().simulate('change', {
-            target: { value: '' }
-        })
-
-        expect(onChangeHandler.mock.calls).toEqual([])
-    })
-
-})
+  it('mapDispatchToProps test', () => {
+    const auth = jest.fn();
+    mapDispatchToProps(auth).auth();
+    expect(typeof auth.mock.calls[0][0]).toEqual('function');
+  });
+});

@@ -1,31 +1,27 @@
-import React from 'react'
-import { shallow } from 'enzyme'
-
-import { Layout, mapStateToProps, } from '../hoc/Layout/Layout'
+import React from 'react';
+import { shallow } from 'enzyme';
+import { Layout, mapStateToProps } from '../hoc/Layout/Layout';
 
 describe('Layout test', () => {
+  let wrapper;
+  let props;
+  beforeEach(() => {
+    props = { isAuthenticated: null };
+    wrapper = shallow(<Layout {...props}>App</Layout>);
+  });
 
-    let wrapper, props
-    beforeEach(() => {
-        props = {
-            isAuthenticated: null,
-        }
-        wrapper = shallow(<Layout {...props} />)
-    })
+  it('toggleMenuHandler test', () => {
+    wrapper.instance().toggleMenuHandler();
+    expect(wrapper.state('menu')).toBe(true);
+  });
 
-    it('should render Drawer', () => {
-        expect(wrapper.find('Drawer').exists()).toBe(true)
-    })
+  it('menuCloseHandler test', () => {
+    wrapper.instance().menuCloseHandler();
+    expect(wrapper.state('menu')).toBe(false);
+  });
 
-    it('toggleMenuHandler, menuCloseHandler test', () => {
-        expect(wrapper.instance().toggleMenuHandler()).toBe(undefined)
-        expect(wrapper.instance().menuCloseHandler()).toBe(undefined)
-    })
-
-    it("mapStateToProps test", () => {
-        const store = { auth: { token: 'token' } }
-
-        expect(mapStateToProps(store)).toEqual({ isAuthenticated: true })
-    })
-
-})
+  it('mapStateToProps test', () => {
+    const store = { auth: { token: 'token' } };
+    expect(mapStateToProps(store)).toEqual({ isAuthenticated: true });
+  });
+});

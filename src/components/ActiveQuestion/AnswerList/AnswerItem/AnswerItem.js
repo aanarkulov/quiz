@@ -1,19 +1,38 @@
-import React from 'react'
-import classes from './AnswerItem.css'
+import React from 'react';
+import PropTypes from 'prop-types';
+import classes from './AnswerItem.css';
 
-const AnswerItem = props => {
-    const cls = [classes.AnswerItem]
-    if (props.state) {
-        cls.push(classes[props.state])
-    }
-    return (
-        <li
-            className={cls.join(' ')}
-            onClick={() => props.onAnswerClick(props.answer.id)}
-        >
-            {props.answer.text}
-        </li>
-    )
-}
+const AnswerItem = (props) => {
+  const cls = [classes.AnswerItem];
+  const { answer, state, onAnswerClick } = props;
 
-export default AnswerItem
+  if (state) {
+    cls.push(classes[state]);
+  }
+
+  return (
+    <li className={cls.join(' ')}>
+      <div
+        role="button"
+        tabIndex="0"
+        onClick={() => onAnswerClick(answer.id)}
+        onKeyPress={() => { }}
+      >
+        {answer.text}
+      </div>
+    </li>
+  );
+};
+
+AnswerItem.propTypes = {
+  answer: PropTypes.shape({
+    id: PropTypes.number,
+    text: PropTypes.string,
+  }).isRequired,
+  state: PropTypes.string,
+  onAnswerClick: PropTypes.func.isRequired,
+};
+
+AnswerItem.defaultProps = { state: null };
+
+export default AnswerItem;

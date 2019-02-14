@@ -1,61 +1,65 @@
-import React from 'react'
-import { shallow } from 'enzyme'
-
-import { QuizCreator, mapStateToProps, mapDispatchToProps } from '../containers/QuizCreator/QuizCreator'
+import React from 'react';
+import { shallow } from 'enzyme';
+import { QuizCreator, mapStateToProps, mapDispatchToProps } from '../containers/QuizCreator/QuizCreator';
 
 describe('QuizCreator container', () => {
+  let wrapper;
+  beforeEach(() => {
+    const props = {
+      quiz: [],
+      createQuizQuestion: jest.fn(),
+      finishCreateQuiz: jest.fn(),
+    };
+    wrapper = shallow(<QuizCreator {...props} />);
+  });
 
-    let wrapper
-    beforeEach(() => {
-        const props = {
-            quiz: [],
-            createQuizQuestion: jest.fn(),
-            finishCreateQuiz: jest.fn()
-        }
-        wrapper = shallow(<QuizCreator {...props} />)
-    })
+  let event = { preventDefault: jest.fn() };
+  it('submitHandler test', () => {
+    wrapper.instance().submitHandler(event);
+    expect(event.preventDefault.mock.calls[0]).toEqual([]);
+  });
 
-    it('should render Auxillary components', () => {
-        expect(wrapper.find('Auxillary').exists()).toBe(true)
-    })
+  it('addQuestionHandler test', () => {
+    wrapper.instance().addQuestionHandler(event);
+    expect(event.preventDefault.mock.calls[0]).toEqual([]);
+  });
 
-    it('methods of Auth test', () => {
-        const event = {
-            preventDefault: jest.fn(),
-            target: { value: 1 }
-        }
+  it('createQuizHandler test', () => {
+    wrapper.instance().createQuizHandler(event);
+    expect(event.preventDefault.mock.calls[0]).toEqual([]);
+  });
 
-        expect(wrapper.instance().submitHandler(event)).toBe(undefined)
-        expect(wrapper.instance().addQuestionHandler(event)).toBe(undefined)
-        expect(wrapper.instance().createQuizHandler(event)).toBe(undefined)
-        expect(wrapper.instance().selectChangeHandler(event)).toBe(undefined)
-        expect(wrapper.instance().onChangeHandler('question', 'question')).toBe(undefined)
-    })
+  it('selectChangeHandler test', () => {
+    event = {
+      preventDefault: jest.fn(),
+      target: { value: 2 },
+    };
+    wrapper.instance().selectChangeHandler(event);
+    expect(wrapper.state('rightAnswerId')).toEqual(2);
+  });
 
-    it("mapStateToProps test", () => {
-        const store = { create: { quiz: [{}] } }
+  it('onChangeHandler test', () => {
+    wrapper.instance().onChangeHandler('', 'question');
+    expect(wrapper.state('isFormValid')).toBe(true);
+  });
 
-        expect(mapStateToProps(store)).toEqual({ quiz: [{}] })
-    })
+  it('Input onChangeHandler test', () => {
+    wrapper.find('Input').first().simulate('change', { target: { value: '' } });
+    expect(wrapper.state('isFormValid')).toBe(true);
+  });
 
-    it('mapDispatchToProps test', () => {
-        const createQuizQuestion = jest.fn();
-        const finishCreateQuiz = jest.fn();
+  it('mapStateToProps test', () => {
+    const quiz = { quiz: [{}] };
+    const store = { create: quiz };
+    expect(mapStateToProps(store)).toEqual(quiz);
+  });
 
-        mapDispatchToProps(createQuizQuestion).createQuizQuestion('question')
-        mapDispatchToProps(finishCreateQuiz).finishCreateQuiz()
-
-        expect(createQuizQuestion.mock.calls[0][0]).toEqual({ type: 'CREATE_QUIZ_QUESTION', item: 'question' })
-    })
-
-    it('Input onChangeHandler test', () => {
-        const onChangeHandler = jest.fn();
-
-        wrapper.find('Input').first().simulate('change', {
-            target: { value: '' }
-        })
-
-        expect(onChangeHandler.mock.calls).toEqual([])
-    })
-
-})
+  it('mapDispatchToProps test', () => {
+    const createQuizQuestion = jest.fn();
+    const finishCreateQuiz = jest.fn();
+    mapDispatchToProps(createQuizQuestion).createQuizQuestion('question');
+    mapDispatchToProps(finishCreateQuiz).finishCreateQuiz();
+    expect(createQuizQuestion.mock.calls[0][0]).toEqual({ type: 'CREATE_QUIZ_QUESTION', item: 'question' });
+    expect(typeof finishCreateQuiz.mock.calls[0][0]).toEqual('function');
+  });
+});

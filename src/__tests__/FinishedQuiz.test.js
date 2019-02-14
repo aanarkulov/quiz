@@ -1,30 +1,28 @@
-import React from 'react'
-import { shallow } from 'enzyme'
-import FinishedQuiz from '../components/FinishedQuiz/FinishedQuiz'
+import React from 'react';
+import { shallow } from 'enzyme';
+import FinishedQuiz from '../components/FinishedQuiz/FinishedQuiz';
 
 describe('FinishedQuiz component', () => {
+  let wrapper;
+  let props;
 
-    it('should render Button and li element', () => {
-        const props = {
-            results: { 1: 'success' },
-            quiz: [{ id: 1, question: 'question' }],
-            onRetry: jest.fn()
-        }
-        const wrapper = shallow(<FinishedQuiz {...props} />)
+  it('return i[className="fa fa-check "]', () => {
+    props = {
+      results: { 1: 'success' },
+      quiz: [{ id: 1, question: '' }],
+      onRetry: jest.fn(),
+    };
+    wrapper = shallow(<FinishedQuiz {...props} />);
+    expect(wrapper.find('li').find('i').prop('className')).toEqual('fa fa-check ');
+  });
 
-        expect(wrapper.find('Button').exists()).toBe(true)
-        expect(wrapper.find('li').exists()).toBe(true)
-    })
-
-    it('if results[1] = "error" return li[className="fa fa-times ..."]', () => {
-        const props = {
-            results: { 1: 'error' },
-            quiz: [{ id: 1, question: 'question' }],
-            onRetry: jest.fn()
-        }
-        const wrapper = shallow(<FinishedQuiz {...props} />)
-
-        expect(wrapper.find('li').exists()).toBe(true)
-    })
-
-})
+  it('return i[className="fa fa-times "]', () => {
+    props = {
+      results: { 1: 'error' },
+      quiz: [{ id: 1, question: '' }],
+      onRetry: jest.fn(),
+    };
+    wrapper = shallow(<FinishedQuiz {...props} />);
+    expect(wrapper.find('li').find('i').prop('className')).toEqual('fa fa-times ');
+  });
+});
