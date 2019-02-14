@@ -43,6 +43,16 @@ describe('auth actions', () => {
       expect(store.getActions()).toEqual(expectedActions);
     });
 
+    it('logout if token expirate', () => {
+      store = mockStore();
+      expectedActions = [{ type: types.AUTH_LOGOUT }];
+
+      localStorage.removeItem('expirationDate');
+      localStorage.setItem('expirationDate', new Date());
+      store.dispatch(actions.autoLogin());
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+
     it('logout if token does not exists', () => {
       store = mockStore();
       expectedActions = [{ type: types.AUTH_LOGOUT }];
@@ -51,15 +61,5 @@ describe('auth actions', () => {
       store.dispatch(actions.autoLogin());
       expect(store.getActions()).toEqual(expectedActions);
     });
-
-    // it('logout if token expiration', () => {
-    //   store = mockStore();
-    //   expectedActions = [{ type: types.AUTH_LOGOUT }];
-
-    //   const expirationDate = new Date();
-    //   localStorage.setItem('expirationDate', expirationDate);
-    //   store.dispatch(actions.autoLogin());
-    //   expect(store.getActions()).toEqual(expectedActions);
-    // });
   });
 });
