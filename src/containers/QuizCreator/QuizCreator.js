@@ -157,6 +157,7 @@ export class QuizCreator extends Component {
             >
               Добавить вопрос
             </Button>
+            {quiz.map(item => <li key={item.id}>{item.question}</li>)}
             <Button
               type="success"
               onClick={this.createQuizHandler}
@@ -165,6 +166,8 @@ export class QuizCreator extends Component {
               Создать тест
             </Button>
           </form>
+          <hr />
+
         </div>
       </div>
     );
