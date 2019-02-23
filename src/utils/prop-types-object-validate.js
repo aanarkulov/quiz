@@ -1,4 +1,4 @@
-function validObjectItemIsString(objects, propName, componentName, location, propFullName) {
+const validObjectItemIsString = (objects, propName, componentName, location, propFullName) => {
   const obj = objects[propName];
 
   if (typeof obj !== 'string') {
@@ -11,6 +11,6 @@ function validObjectItemIsString(objects, propName, componentName, location, pro
   // if (isStringError) { return isStringError; }
 
   return null;
-}
+};
 
 export default validObjectItemIsString;

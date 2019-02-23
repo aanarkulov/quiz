@@ -10,9 +10,7 @@ export class Logout extends Component {
     logout();
   }
 
-  render() {
-    return <Redirect to="/" />;
-  }
+  render = () => <Redirect to="/" />;
 }
 
 Logout.propTypes = { logout: PropTypes.func.isRequired };

@@ -13,9 +13,7 @@ export class Layout extends Component {
     this.setState({ menu: !menu });
   }
 
-  menuCloseHandler = () => {
-    this.setState({ menu: false });
-  }
+  menuCloseHandler = () => this.setState({ menu: false });
 
   render() {
     const { menu } = this.state;
@@ -23,16 +21,8 @@ export class Layout extends Component {
 
     return (
       <div className={classes.Layout}>
-        <Drawer
-          isOpen={menu}
-          onClose={this.menuCloseHandler}
-          isAuthenticated={isAuthenticated}
-        />
-        <MenuToggle
-          onToggle={this.toggleMenuHandler}
-          isOpen={menu}
-        />
-
+        <Drawer isOpen={menu} onClose={this.menuCloseHandler} isAuthenticated={isAuthenticated} />
+        <MenuToggle onToggle={this.toggleMenuHandler} isOpen={menu} />
         <main>
           {children}
         </main>
@@ -48,8 +38,6 @@ Layout.propTypes = {
 
 Layout.defaultProps = { isAuthenticated: null };
 
-export function mapStateToProps(state) {
-  return { isAuthenticated: state.auth.token && true };
-}
+export const mapStateToProps = state => ({ isAuthenticated: state.auth.token && true });
 
 export default connect(mapStateToProps)(Layout);

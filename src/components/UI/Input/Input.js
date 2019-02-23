@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classes from './Input.css';
 
-function isInvalid({ valid, touched, shouldValidate }) {
-  return !valid && shouldValidate && touched;
-}
+const isInvalid = ({ valid, touched, shouldValidate }) => !valid && shouldValidate && touched;
 
 const Input = (props) => {
   const { type, label, value, errorMessage, onChange } = props;
@@ -17,15 +15,8 @@ const Input = (props) => {
 
   return (
     <div className={cls.join(' ')}>
-      <label htmlFor={htmlFor}>
-        {label}
-      </label>
-      <input
-        type={type}
-        id={htmlFor}
-        value={value}
-        onChange={onChange}
-      />
+      <label htmlFor={htmlFor}>{label}</label>
+      <input type={type} id={htmlFor} value={value} onChange={onChange} />
       {isInvalid(props) ? <span>{errorMessage}</span> : null}
     </div>
   );

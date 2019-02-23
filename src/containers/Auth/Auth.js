@@ -5,7 +5,7 @@ import classes from './Auth.css';
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
 import { createControl, validate, validateForm } from '../../form/formFramework';
-import * as actions from '../../store/actions/auth';
+import { AUTH } from '../../store/actions/actionTypes';
 
 export class Auth extends Component {
   state = {
@@ -25,6 +25,8 @@ export class Auth extends Component {
     },
   };
 
+  submitHandler = event => event.preventDefault();
+
   loginHandler = () => {
     const { auth } = this.props;
     const { formControls } = this.state;
@@ -39,30 +41,24 @@ export class Auth extends Component {
     auth(email.value, password.value, false);
   }
 
-  submitHandler = (event) => {
-    event.preventDefault();
-  }
 
   onChangeHandler = (value, controlName) => {
     const { formControls } = this.state;
     const formControlss = { ...formControls };
     const control = { ...formControlss[controlName] };
-
     control.value = value;
     control.touched = true;
     control.valid = validate(value, control.validation);
-
     formControls[controlName] = control;
-
     this.setState({
       formControls,
       isFormValid: validateForm(formControls),
     });
   }
 
-  renderInputs() {
-    const { formControls } = this.state;
-    return Object.keys(formControls).map((controlName) => {
+  render() {
+    const { isFormValid, formControls } = this.state;
+    const render = Object.keys(formControls).map((controlName) => {
       const control = formControls[controlName];
       return (
         <Input
@@ -78,16 +74,13 @@ export class Auth extends Component {
         />
       );
     });
-  }
 
-  render() {
-    const { isFormValid } = this.state;
     return (
       <div className={classes.Auth}>
         <div>
           <h1>Авторизация</h1>
           <form className={classes.AuthForm} onSubmit={this.submitHandler}>
-            {this.renderInputs()}
+            {render}
             <Button type="success" onClick={this.loginHandler} disabled={!isFormValid}>Войти</Button>
             <Button type="primary" onClick={this.registerHandler} disabled={!isFormValid}>Зарегистрироваться</Button>
           </form>
@@ -99,8 +92,8 @@ export class Auth extends Component {
 
 Auth.propTypes = { auth: PropTypes.func.isRequired };
 
-export function mapDispatchToProps(dispatch) {
-  return { auth: (email, password, isLogin) => dispatch(actions.auth(email, password, isLogin)) };
-}
+export const mapDispatchToProps = dispatch => (
+  { auth: (email, password, isLogin) => dispatch({ type: AUTH, email, password, isLogin }) }
+);
 
 export default connect(null, mapDispatchToProps)(Auth);

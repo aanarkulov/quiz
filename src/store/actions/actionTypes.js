@@ -8,8 +8,16 @@ export const QUIZ_FINISHED = 'QUIZ_FINISHED';
 export const QUIZ_NEXT_QUESTION = 'QUIZ_NEXT_QUESTION';
 export const QUIZ_RETRY = 'QUIZ_RETRY';
 
-export const CREATE_QUIZ_QUESTION = 'CREATE_QUIZ_QUESTION';
-export const RESET_QUIZ_CREATION = 'RESET_QUIZ_CREATION';
+export const CREATE_QUIZ_ITEM = 'CREATE_QUIZ_ITEM';
+export const RESET_QUIZ = 'RESET_QUIZ';
 
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
+
+// saga types
+export const FETCH_QUIZES = 'FETCH_QUIZES';
+export const FETCH_QUIZ_BY_ID = 'FETCH_QUIZ_BY_ID';
+export const QUIZ_ANSWER_CLICK = 'QUIZ_ANSWER_CLICK';
+export const AUTH = 'AUTH';
+export const AUTO_LOGIN = 'AUTO_LOGIN';
+export const CREATE_QUIZ = 'CREATE_QUIZ';

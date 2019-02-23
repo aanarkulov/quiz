@@ -10,26 +10,10 @@ const ActiveQuestion = (props) => {
   return (
     <div className={classes.ActiveQuestion}>
       <p className={classes.Question}>
-        <span>
-          <strong>
-            {answerNumber}
-            .
-          </strong>
-          &nbsp;&nbsp;
-          {question}
-        </span>
-        <small>
-          {answerNumber}
-          &nbsp;из&nbsp;
-          {quizLength}
-        </small>
+        <span>{`${answerNumber}.  ${question}`}</span>
+        <small>{`${answerNumber} из ${quizLength}`}</small>
       </p>
-
-      <AnswerList
-        answers={answers}
-        onAnswerClick={onAnswerClick}
-        state={state}
-      />
+      <AnswerList answers={answers} onAnswerClick={onAnswerClick} state={state} />
     </div>
   );
 };

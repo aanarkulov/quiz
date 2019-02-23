@@ -10,8 +10,21 @@ class Drawer extends Component {
     onClose();
   }
 
-  renderLinks(links) {
-    return links.map(link => (
+  render() {
+    const { isOpen, isAuthenticated, onClose } = this.props;
+    const cls = [classes.Drawer];
+    if (!isOpen) {
+      cls.push(classes.close);
+    }
+
+    const links = [{ to: '/', label: 'Список', exact: true }];
+    if (isAuthenticated) {
+      links.push({ to: '/quiz-creator', label: 'Создать тест', exact: false });
+      links.push({ to: '/logout', label: 'Выйти', exact: false });
+    } else {
+      links.push({ to: '/auth', label: 'Авторизация', exact: false });
+    }
+    const renderLinks = links.map(link => (
       <li key={link.label}>
         <NavLink
           to={link.to}
@@ -23,31 +36,11 @@ class Drawer extends Component {
         </NavLink>
       </li>
     ));
-  }
-
-  render() {
-    const { isOpen, isAuthenticated, onClose } = this.props;
-    const cls = [classes.Drawer];
-
-    if (!isOpen) {
-      cls.push(classes.close);
-    }
-
-    const links = [{ to: '/', label: 'Список', exact: true }];
-
-    if (isAuthenticated) {
-      links.push({ to: '/quiz-creator', label: 'Создать тест', exact: false });
-      links.push({ to: '/logout', label: 'Выйти', exact: false });
-    } else {
-      links.push({ to: '/auth', label: 'Авторизация', exact: false });
-    }
 
     return (
       <React.Fragment>
         <nav className={cls.join(' ')}>
-          <ul>
-            {this.renderLinks(links)}
-          </ul>
+          <ul>{renderLinks}</ul>
         </nav>
         {isOpen && <Backdrop onClick={onClose} />}
       </React.Fragment>

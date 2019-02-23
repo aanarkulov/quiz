@@ -4,11 +4,7 @@ import classes from './MenuToggle.css';
 
 const MenuToggle = (props) => {
   const { isOpen, onToggle } = props;
-  const cls = [
-    classes.MenuToggle,
-    'fa',
-  ];
-
+  const cls = [classes.MenuToggle, 'fa'];
   if (isOpen) {
     cls.push('fa-times');
     cls.push(classes.open);
@@ -16,13 +12,7 @@ const MenuToggle = (props) => {
     cls.push('fa-bars');
   }
 
-  return (
-    <i
-      role="presentation"
-      className={cls.join(' ')}
-      onClick={onToggle}
-    />
-  );
+  return <i role="presentation" className={cls.join(' ')} onClick={onToggle} />;
 };
 
 MenuToggle.propTypes = {

@@ -8,21 +8,10 @@ const Select = (props) => {
 
   return (
     <div className={classes.Select}>
-      <label htmlFor={htmlFor}>
-        {label}
-      </label>
-      <select
-        id={htmlFor}
-        value={value}
-        onChange={onChange}
-      >
+      <label htmlFor={htmlFor}>{label}</label>
+      <select id={htmlFor} value={value} onChange={onChange}>
         {options.map(option => (
-          <option
-            key={option.value}
-            value={option.value}
-          >
-            {option.text}
-          </option>
+          <option key={option.value} value={option.value}>{option.text}</option>
         ))}
       </select>
     </div>

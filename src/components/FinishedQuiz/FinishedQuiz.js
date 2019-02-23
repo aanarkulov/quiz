@@ -28,27 +28,16 @@ const FinishedQuiz = (props) => {
 
           return (
             <li key={quizItem.id}>
-              <strong>{index + 1}</strong>
-              .&nbsp;
-              {quizItem.question}
+              {`${index + 1}. ${quizItem.question}`}
               <i className={cls.join(' ')} />
             </li>
           );
         })}
       </ul>
-
-      <p>
-        Правильно&nbsp;
-        {total}
-        &nbsp;из&nbsp;
-        {quiz.length}
-      </p>
-
+      <p>{`Правильно ${total} из ${quiz.length}`}</p>
       <div>
         <Button onClick={onRetry} type="primary">Повторить</Button>
-        <Link to="/">
-          <Button type="success">Перейти в список тестов</Button>
-        </Link>
+        <Link to="/"><Button type="success">Перейти в список тестов</Button></Link>
       </div>
     </div>
   );
