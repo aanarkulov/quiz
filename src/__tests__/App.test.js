@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { App, mapStateToProps, mapDispatchToProps } from '../App';
+import * as types from '../store/actions/actionTypes';
 
 describe('App test', () => {
   let wrapper;
@@ -29,6 +30,6 @@ describe('App test', () => {
   it('mapDispatchToProps test', () => {
     const autoLogin = jest.fn();
     mapDispatchToProps(autoLogin).autoLogin();
-    expect(typeof autoLogin.mock.calls[0][0]).toEqual('function');
+    expect(autoLogin.mock.calls[0][0]).toEqual({ type: types.AUTO_LOGIN });
   });
 });

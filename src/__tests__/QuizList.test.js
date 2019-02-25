@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { QuizList, mapStateToProps, mapDispatchToProps } from '../containers/QuizList/QuizList';
+import * as types from '../store/actions/actionTypes';
 
 describe('QuizList container', () => {
   let wrapper;
@@ -37,6 +38,6 @@ describe('QuizList container', () => {
   it('mapDispatchToProps test', () => {
     const fetchQuizes = jest.fn();
     mapDispatchToProps(fetchQuizes).fetchQuizes();
-    expect(typeof fetchQuizes.mock.calls[0][0]).toEqual('function');
+    expect(fetchQuizes.mock.calls[0][0]).toEqual({ type: types.FETCH_QUIZES });
   });
 });

@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Quiz, mapStateToProps, mapDispatchToProps } from '../containers/Quiz/Quiz';
+import * as types from '../store/actions/actionTypes';
 
 describe('Quiz container', () => {
   let wrapper;
@@ -75,8 +76,12 @@ describe('Quiz container', () => {
     mapDispatchToProps(fetchQuizById).fetchQuizById();
     mapDispatchToProps(quizAnswerClick).quizAnswerClick();
     mapDispatchToProps(retryQuiz).retryQuiz();
-    expect(typeof fetchQuizById.mock.calls[0][0]).toEqual('function');
-    expect(typeof quizAnswerClick.mock.calls[0][0]).toEqual('function');
-    expect(retryQuiz.mock.calls[0][0]).toEqual({ type: 'QUIZ_RETRY' });
+    expect(fetchQuizById.mock.calls[0][0]).toEqual(
+      { type: types.FETCH_QUIZ_BY_ID, quizId: undefined },
+    );
+    expect(quizAnswerClick.mock.calls[0][0]).toEqual(
+      { type: types.QUIZ_ANSWER_CLICK, answerId: undefined },
+    );
+    expect(retryQuiz.mock.calls[0][0]).toEqual({ type: types.QUIZ_RETRY });
   });
 });

@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Auth, mapDispatchToProps } from '../containers/Auth/Auth';
+import * as types from '../store/actions/actionTypes';
 
 describe('Auth container', () => {
   let wrapper;
@@ -42,6 +43,6 @@ describe('Auth container', () => {
   it('mapDispatchToProps test', () => {
     const auth = jest.fn();
     mapDispatchToProps(auth).auth();
-    expect(typeof auth.mock.calls[0][0]).toEqual('function');
+    expect(auth.mock.calls[0][0]).toEqual({ type: types.AUTH });
   });
 });
