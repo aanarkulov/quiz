@@ -11,7 +11,7 @@ const initialState = {
   quiz: null,
 };
 
-export default function quizReducer(state = initialState, action) {
+export default (state = initialState, action) => {
   switch (action.type) {
     case types.FETCH_QUIZES_START:
       return {
@@ -64,4 +64,4 @@ export default function quizReducer(state = initialState, action) {
     default:
       return state;
   }
-}
+};

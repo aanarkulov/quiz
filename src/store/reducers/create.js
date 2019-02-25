@@ -2,7 +2,7 @@ import * as types from '../actions/actionTypes';
 
 const initialState = { quiz: [] };
 
-export default function createReducer(state = initialState, action) {
+export default (state = initialState, action) => {
   switch (action.type) {
     case types.CREATE_QUIZ_ITEM:
       return {
@@ -17,4 +17,4 @@ export default function createReducer(state = initialState, action) {
     default:
       return state;
   }
-}
+};

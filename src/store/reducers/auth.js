@@ -2,7 +2,7 @@ import * as types from '../actions/actionTypes';
 
 const initialState = { token: null };
 
-export default function authReducer(state = initialState, action) {
+export default (state = initialState, action) => {
   switch (action.type) {
     case types.AUTH_SUCCESS:
       return {
@@ -17,4 +17,4 @@ export default function authReducer(state = initialState, action) {
     default:
       return state;
   }
-}
+};

@@ -22,7 +22,8 @@ export function* authLogout(time) {
   yield put(logout());
 }
 
-export function* auth(email, password, isLogin) {
+export function* auth(action) {
+  const { email, password, isLogin } = action;
   const authData = { email, password, returnSecureToken: true };
   let url = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${API_KEY}`;
 
@@ -39,12 +40,8 @@ export function* auth(email, password, isLogin) {
   yield call(authLogout, data.expiresIn);
 }
 
-export function* authCall(action) {
-  yield call(auth, action.email, action.password, action.isLogin);
-}
-
 export function* watchAuth() {
-  yield takeEvery(types.AUTH, authCall);
+  yield takeEvery(types.AUTH, auth);
 }
 
 export function* autoLogin() {
