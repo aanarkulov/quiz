@@ -11,7 +11,7 @@ const AnswerItem = (props) => {
   }
 
   return (
-    <div role="button" tabIndex="0" onClick={() => onAnswerClick(answer.id)} onKeyUp={() => onAnswerClick(answer.id)}>
+    <div role="button" tabIndex="0" onClick={() => onAnswerClick(answer.id)} onKeyPress={() => { }}>
       <li className={cls.join(' ')}>{answer.text}</li>
     </div>
   );

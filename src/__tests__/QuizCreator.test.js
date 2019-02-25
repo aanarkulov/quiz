@@ -6,9 +6,17 @@ describe('QuizCreator container', () => {
   let wrapper;
   beforeEach(() => {
     const props = {
-      quiz: [],
-      createQuizQuestion: jest.fn(),
-      finishCreateQuiz: jest.fn(),
+      quiz: [{
+        id: 1,
+        question: 'question',
+        rightAnswerId: 1,
+        answers: [{
+          id: 1,
+          text: 'text',
+        }],
+      }],
+      createQuizItem: jest.fn(),
+      createQuiz: jest.fn(),
     };
     wrapper = shallow(<QuizCreator {...props} />);
   });
@@ -55,11 +63,11 @@ describe('QuizCreator container', () => {
   });
 
   it('mapDispatchToProps test', () => {
-    const createQuizQuestion = jest.fn();
-    const finishCreateQuiz = jest.fn();
-    mapDispatchToProps(createQuizQuestion).createQuizQuestion('question');
-    mapDispatchToProps(finishCreateQuiz).finishCreateQuiz();
-    expect(createQuizQuestion.mock.calls[0][0]).toEqual({ type: 'CREATE_QUIZ_QUESTION', item: 'question' });
-    expect(typeof finishCreateQuiz.mock.calls[0][0]).toEqual('function');
+    const createQuizItem = jest.fn();
+    const createQuiz = jest.fn();
+    mapDispatchToProps(createQuizItem).createQuizItem('question');
+    mapDispatchToProps(createQuiz).createQuiz();
+    expect(createQuizItem.mock.calls[0][0]).toEqual({ type: 'CREATE_QUIZ_ITEM', item: 'question' });
+    expect(createQuiz.mock.calls[0][0]).toEqual({ type: 'CREATE_QUIZ' });
   });
 });
