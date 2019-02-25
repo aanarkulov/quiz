@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { put, takeEvery, call, select } from 'redux-saga/effects';
 import { baseURL } from '../../settings';
 import * as types from './actionTypes';
@@ -22,8 +21,8 @@ export function* fetchQuizes() {
   yield put(fetchQuizesStart());
   try {
     const quizes = [];
-    const response = yield call(axios, `${baseURL}/quizes.json`);
-    Object.keys(response.data).forEach((key, index) => {
+    const data = yield fetch(`${baseURL}/quizes.json`).then(res => res.json());
+    Object.keys(data).forEach((key, index) => {
       quizes.push({
         id: key,
         name: `Тест № ${index + 1}`,
@@ -43,8 +42,8 @@ export function* fetchQuizById(action) {
   const { quizId } = action;
   yield put(fetchQuizesStart());
   try {
-    const response = yield call(axios, `${baseURL}/quizes/${quizId}.json`);
-    yield put(fetchQuizSuccess(response.data));
+    const data = yield fetch(`${baseURL}/quizes/${quizId}.json`).then(res => res.json());
+    yield put(fetchQuizSuccess(data));
   } catch (e) {
     yield put(fetchQuizesError(e));
   }

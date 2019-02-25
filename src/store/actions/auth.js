@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { put, call, takeEvery } from 'redux-saga/effects';
 import { API_KEY } from '../../settings';
 import * as types from './actionTypes';
@@ -30,8 +29,7 @@ export function* auth(action) {
   if (isLogin) {
     url = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${API_KEY}`;
   }
-  const response = yield call(axios.post, url, authData);
-  const { data } = response;
+  const data = yield fetch(url, { method: 'post', body: JSON.stringify(authData) }).then(res => res.json());
   const expirationDate = new Date(new Date().getTime() + data.expiresIn * 1000);
   localStorage.setItem('token', data.idToken);
   localStorage.setItem('userId', data.localId);
