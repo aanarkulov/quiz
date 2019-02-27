@@ -2,7 +2,7 @@ const validObjectItemIsString = (objects, propName, componentName, location, pro
   const obj = objects[propName];
 
   if (typeof obj !== 'string') {
-    return new Error(`Invalid prop '${propFullName}' of type '${typeof obj}' supplied to '${componentName}' , expected 'string'`);
+    return new Error(`Invalid prop \`${propFullName}\` of type \`${typeof obj}\` supplied to \`${componentName}\` , expected \`string\`.`);
   }
   // const isObjectError = PropTypes.object(props, propName, propFullName, componentName, location);
   // if (isObjectError) { return isObjectError; }
