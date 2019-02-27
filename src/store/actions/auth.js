@@ -14,8 +14,7 @@ export function logout() {
   return { type: types.AUTH_LOGOUT };
 }
 
-const delay = time => new Promise(res => setTimeout(res, time * 1000));
-
+export const delay = time => new Promise(res => setTimeout(res, time * 1000));
 export function* authLogout(time) {
   yield call(delay, time);
   yield put(logout());

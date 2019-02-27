@@ -1,7 +1,6 @@
 import { put, takeEvery, call, select } from 'redux-saga/effects';
 import { baseURL } from '../../settings';
 import * as types from './actionTypes';
-import { mapStateToProps } from '../../containers/Quiz/Quiz';
 
 export const fetchQuizesStart = () => ({ type: types.FETCH_QUIZES_START });
 export const fetchQuizesSuccess = quizes => ({ type: types.FETCH_QUIZES_SUCCESS, quizes });
@@ -55,7 +54,7 @@ export function* watchfetchQuizById() {
 
 export function* quizAnswerClick(action) {
   const { answerId } = action;
-  const state = yield select(mapStateToProps);
+  const state = yield select(st => st.quiz);
   if (state.answerState) {
     const key = Object.keys(state.answerState)[0];
     if (state.answerState[key] === 'success') {
